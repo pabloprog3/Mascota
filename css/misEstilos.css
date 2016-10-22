@@ -1,0 +1,73 @@
+.Menu{
+
+		background-color: rgb(30, 30, 200);
+
+}
+
+#foto{
+	width: 130px;
+	height: 100px;
+}
+
+#titulo{
+
+	margin: 1px;
+	text-indent: 20%;
+	text-align: center;
+	font-family: monospace;
+	font-style: italic;
+	color: rgb(190, 210, 10);
+}
+
+#Logo{
+}
+
+#subtitulo{
+
+	color: rgb(0,0,0);
+	font-style: oblique;
+}
+
+#Inicio{
+	display: block;
+	width: 30%;
+	height: 20%;
+	display: inline-block;
+	text-align: center;
+	border-style: dashed;
+	background-color: rgb(130, 10, 90);
+	border-color: rgb(255, 252, 0);
+	float: left;
+}
+
+.btnComun{
+	border-color: rgb(200, 200, 190);
+	cursor: pointer;
+	padding-top: 10px;
+	padding-bottom: 3px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+.btnComun:hover{
+
+	color: rgb(77,0,72);
+	text-align: left;
+}
+
+#btnIngresar:hover
+{
+	text-align: right;
+}
+
+.btnComun:onClick{
+	color: rgb(230, 190,190);
+}
+
+#Respuesta{
+	display: block;
+	width: 80px;
+	height: 50px;
+	text-align: right;
+	float: right;
+}
