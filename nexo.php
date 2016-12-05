@@ -65,16 +65,13 @@ switch ($queHago) {
 
 				if (isset($_POST['mascota']))
 				 {
-					$obj = json_encode($_POST['mascota']);
+					$obj = $_POST["mascota"];
+					Mascota::borrarMascota($obj);
 				}
 				else
 					$obj = NULL;
 		
-				Mascota::borrarMascota($obj->nombre);
-
-				$valor = $obj->nombre;
-
-				echo "$valor";
+				
 
 		break;
 

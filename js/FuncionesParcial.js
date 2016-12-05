@@ -157,7 +157,7 @@ function sacarMascota (mascota)
         //dataType: "json",
         data: {
 			queHacer : "sacarMascota",
-			mascota : mascota
+			mascota : nombre
 		}
     })
 	.done(function (objJson) {
