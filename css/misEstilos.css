@@ -30,14 +30,11 @@
 
 #Inicio{
 	display: block;
-	width: 30%;
-	height: 20%;
 	display: inline-block;
 	text-align: center;
 	border-style: dashed;
 	background-color: rgb(130, 10, 90);
 	border-color: rgb(255, 252, 0);
-	float: left;
 }
 
 .btnComun{
@@ -66,7 +63,7 @@
 
 #Respuesta{
 	display: block;
-	width: 80px;
+	width: 60px;
 	height: 50px;
 	text-align: right;
 	float: right;
