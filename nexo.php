@@ -11,10 +11,11 @@ switch ($queHago) {
 
 		$nombre=$_POST['nombre'];
 		$correo=$_POST['correo'];
+		$clave=$_POST['clave'];
 
-		$usuarioNuevo = new Usuario($nombre, $correo);
+		$usuarioNuevo = new Usuario($nombre, $correo, $clave);
 
-		Usuario::escribirUsuario($usuarioNuevo->GetNombre(), $usuarioNuevo->GetCorreo());
+		Usuario::escribirUsuario($usuarioNuevo->GetNombre(), $usuarioNuevo->GetCorreo(), $usuarioNuevo->GetClave());
 		
 		break;
 
@@ -58,22 +59,23 @@ switch ($queHago) {
 
 		case 'sacarMascota':
 
-			//$obj = isset($_POST['mascota']) ? json_decode(json_encode($_POST['mascota'])) : NULL;
+			$obj = $_POST['mascota']; //json_decode(json_encode($_POST['mascota']));
 
+			if(Mascota::borrarMascota($obj))
+				return 's';
+			else
+				return 'n';
 
-				//$obj = isset($_POST['mascota']) ? json_decode(json_encode($_POST['mascota'])) : NULL;
-
-				if (isset($_POST['mascota']))
-				 {
-					$obj = $_POST["mascota"];
-					Mascota::borrarMascota($obj);
-				}
-				else
-					$obj = NULL;
-		
-				
 
 		break;
+
+	 case 'subirFoto':
+	 		$nameFoto=$_POST["nombre"];
+			$res = Mascota::Subir($nameFoto);
+
+			echo  json_encode($res);
+
+	 break;
 
 }
 

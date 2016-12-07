@@ -9,6 +9,7 @@ class Mascota
 	private $_fechaNac;
 	private $_tipo;
 	private $_sexo;
+	private $_foto;
 	
  //++++++++++++++++++++++++++++++++   GETTERS   +++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -38,6 +39,11 @@ class Mascota
 	public function GetSexo()
 	{
 		return $this->_sexo;
+	}
+
+	public function GetPathFoto()
+	{
+		return $this->_foto;
 	}
 
  //++++++++++++++++++++++++++++++++   SETTERS   +++++++++++++++++++++++++++++++++++++++++++++++
@@ -70,6 +76,11 @@ class Mascota
 		$this->_sexo=$valor;
 	}
 
+	public function SetPathFoto($valor)
+	{
+		$this->_foto = $valor;
+	}
+
 //*********************************************************************************************************
 
 	function __construct($nombre, $edad, $fecha, $tipo, $sexo)
@@ -79,6 +90,7 @@ class Mascota
 		$this->_fechaNac = $fecha;
 		$this->_tipo = $tipo;
 		$this->_sexo= $sexo;
+		//$this->_foto=$foto;
 	}
 
 
@@ -92,7 +104,7 @@ class Mascota
 	public static function escribirArchivo($mascota)
 	{
 		//$archivo = fopen('../archivos/mascotas.txt', 'a');
-		$archivo = fopen('archivos/mascotas.txt', 'a');
+		$archivo = fopen('../archivos/mascotas.txt', 'a');
 
 		$str = $mascota->toString();
 
@@ -112,6 +124,7 @@ class Mascota
 		$cont=-1;
 
 		while (!feof($archivo)) 
+
 		{
 			++$cont;
 			$lasMascotas = fgets($archivo);
@@ -142,23 +155,99 @@ class Mascota
 		$ListaDeMascotas = array();
 		$resultado = false;
 		
-		for($i=0; $i<count($ListaDeMascotasLeidos); $i++){
-			if($ListaDeMascotasLeidos[$i]->GetNombre() == $unNombre)
-			{
-				$resultado = true;
+		foreach ($ListaDeMascotasLeidos as $i) {
+			if($ListaDeMascotasLeidos[$i]->edad == $unNombre)
 				continue;
-			}
-			else
-				$ListaDeMascotas[$i] = $ListaDeMascotasLeidos[$i];
+
+			$ListaDeMascotas[$i] = $ListaDeMascotasLeidos[$i];
 		}
 
 
-		$ar = fopen("archivos/mascotas.txt", "w");
+		$ar = fopen("../archivos/mascotas.txt", "w");
 		
 		foreach($ListaDeMascotas as $item){
-			$cant = fwrite($ar, $item->toString());
+			fwrite($ar, $item->toString());
+			
+		}
 
-			print($item);
+		fclose($ar);
+
+		return $resultado;
+
+	}
+
+
+public static function Subir($name)
+{
+	$retorno["Exito"] = TRUE;
+
+		$destino = "fotos/".$name.".jpg";
+		
+		$tipoArchivo = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+
+		if ($_FILES["foto"]["size"] > 5000000) {
+			$retorno["Exito"] = FALSE;
+			$retorno["Mensaje"] = "El fotoarchivo es demasiado grande. Verifique!!!";
+			return $retorno;
+		}
+
+		$esImagen = getimagesize($_FILES["foto"]["tmp_name"]);
+
+		if($esImagen === FALSE) {//NO ES UNA IMAGEN
+			$retorno["Exito"] = FALSE;
+			$retorno["Mensaje"] = "Solo se permiten imagenes.";
+			return $retorno;
+		}
+		else {
+			if($tipoArchivo != "jpg" && $tipoArchivo != "jpeg" && $tipoArchivo != "gif"
+				&& $tipoArchivo != "png") {
+				$retorno["Exito"] = FALSE;
+				$retorno["Mensaje"] = "Solamente son permitidas imagenes con extensi&oacute;n JPG, JPEG, PNG o GIF.";
+				return $retorno;
+			}
+		}
+		
+		if (!move_uploaded_file($_FILES["foto"]["tmp_name"], $destino)) {
+
+			$retorno["Exito"] = FALSE;
+			$retorno["Mensaje"] = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+			return $retorno;
+		}
+		else{
+			$retorno["Mensaje"] = "Archivo subido exitosamente!!!"; 
+			
+			return $retorno;
+		}
+	
+	}
+
+
+
+public static function Eliminar($codBarra)
+	{
+		if($codBarra == NULL)
+			return FALSE;
+			
+		$resultado = TRUE;
+		
+		$ListaDeProductosLeidos = Mascota::TraerMascotas();
+		$ListaDeProductos = array();
+		$imagenParaBorrar = NULL;
+		
+		for($i=0; $i<count($ListaDeProductosLeidos); $i++){
+			if($ListaDeProductosLeidos[$i]->edad == $codBarra){//encontre el borrado, lo excluyo
+				$imagenParaBorrar = trim($ListaDeProductosLeidos[$i]->foto);
+				continue;
+			}else
+				$ListaDeProductos[$i] = $ListaDeProductosLeidos[$i];
+		}
+
+		
+		$ar = fopen("../archivos/mascotas.txt", "w");
+		
+		//ESCRIBO EN EL ARCHIVO
+		foreach($ListaDeProductos as $item){
+			fwrite($ar, $item->toString());
 			
 			if($cant < 1)
 			{
@@ -166,11 +255,11 @@ class Mascota
 				break;
 			}
 		}
-
+		
+		//CIERRO EL ARCHIVO
 		fclose($ar);
-
+		
 		return $resultado;
-
 	}
 
 

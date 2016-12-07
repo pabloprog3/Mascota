@@ -26,7 +26,7 @@
 	<div class="col-md-12">
 			<body id="Menu" class="Menu">
 				<img id="foto" src="fotosSitio/otro3.jpg" class="img-thumbnail img-circle">
-				<h1 id="Titulo"><u>ABM de Mascotas</u> <small id="subtitulo">con archivos de texto</small></h1>
+				<h1 id="Titulo"><u>PRODUCTOS - PRIMER PARCIAL</u> </h1>
 	</div>
 
 </div>		

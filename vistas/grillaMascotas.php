@@ -4,24 +4,26 @@
 
 	<div class='col-md-4'>
 		<form class='form-group' id='formMascota' method='post' action='nexo.php'>
-			<input type='text' id='nombre' name='nombre' placeholder='Ingrese nombre de Mascota' class='form-control'>
+			<input type='text' id='nombre' name='nombre' placeholder='Ingrese Marca' class='form-control'>
 			<br>
-			<input type='text' id='edad' name='edad' placeholder='Ingrese la edad' class='form-control'>
+			<input type='text' id='edad' name='edad' placeholder='Modelo' class='form-control'>
 			<br>
 			<input type='date' id='fecha' name='fecha' class='form-control'>
 			<br>
 			<select <select class='form-control' id='selectTipo'>
 
-				<option value='perro'>Perro</option>
-				<option value='gato'>Gato</option>
+				<option value='Android'>Android</option>
+				<option value='iOS'>iOS</option>
+				<option value='Windows'>Windows</option>
 			</select>
 			<br>
-			<label class='label label-primary'>Seleccione sexo: </label><br>
-			<input  style='color:green' type='radio' value='macho' name='sexo' id='macho'/>Macho
+			<label class='label label-primary'>sim: </label><br>
+			<input  style='color:green' type='radio' value='1' name='sexo' id='macho'/>1
 			<br>
-			<input style='BACKGROUND-COLOR:white' type='radio' value='hembra' name='sexo' id='hembra'/>Hembra
+			<input style='BACKGROUND-COLOR:white' type='radio' value='2' name='sexo' id='hembra'/>2
+			<input type='file' value='foto' name="foto" id="foto">
+			<input type='button' class='btn btn-success' value='Ingresar Producto' id='ingresar' onClick='ingresarMascota()'>
 			<br>
-			<input type='button' class='btn btn-success' value='Ingresar Mascota' id='ingresar' onClick='ingresarMascota()'>
 
 		</form>
 
@@ -45,11 +47,12 @@
 			echo "<table class='table table-responsive' align='center'>
 
 						<tr>
-							<td style='color:black' id='patenteTH' align='center'>Nombre</td>
-							<td style='color:black' id='ingresoTH' align='center'>Edad</td>
+							<td style='color:black' id='patenteTH' align='center'>Marca</td>
+							<td style='color:black' id='ingresoTH' align='center'>Modelo</td>
 							<td style='color:black' id='ingresoTH' align='center'>Fecha</td>
-							<td style='color:black' id='ingresoTH' align='center'>Tipo</td>
-							<td style='color:black' id='ingresoTH' align='center'>Sexo</td>";
+							<td style='color:black' id='ingresoTH' align='center'>SO</td>
+							<td style='color:black' id='ingresoTH' align='center'>SIM</td>";
+
 
 					echo "<td style='color:black'></td>";
 
@@ -57,12 +60,14 @@
 
 						foreach ($matrizDeMascotas as $i) 
 						{
+							$imagenActual = $i->GetPathFoto();
 							$mascota = array();
 							$mascota["nombre"] = $i->GetNombre();
 							$mascota["edad"] = $i->GetEdad();
 							$mascota["fecha"] = $i->GetFecha();
 							$mascota["tipo"] = $i->GetTipo();
 							$mascota["sexo"] = $i->GetSexo();
+							$mascota["foto"] = $i->GetPathFoto();
 
 							$mascota = json_encode($mascota);
 

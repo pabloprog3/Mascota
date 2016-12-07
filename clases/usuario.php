@@ -5,6 +5,7 @@ class Usuario
 
 	public $_nombre;
 	public $_correo;
+	public $_clave;
 
 
 	public function GetNombre()
@@ -27,28 +28,39 @@ class Usuario
 		$this->_correo=$valor;
 	}
 
+		public function SetClave($valor)
+	{
+		$this->_clave = $valor;
+	}
+
+	public function GetClave()
+	{
+		return $this->_clave;
+	}
+
 
 	public function toString()
 	{
-		$this->GetNombre()."-".$this->GetCorreo();
+		$this->GetNombre()."-".$this->GetCorreo()."-".$this->GetClave();
 	}
 
 	
-	function __construct($nombre, $correo)
+	function __construct($nombre, $correo, $clave)
 	{
 		if ($nombre != null && $correo != null) 
 		{
 			$this->SetNombre($nombre);
 			$this->SetCorreo($correo);
+			$this->SetClave($clave);
 		}
 	}
 
 
 
-	public static function escribirUsuario($unNombre, $unCorreo)
+	public static function escribirUsuario($unNombre, $unCorreo, $unaClave)
 	{
 		//$usuarioNuevo = new Usuario($unNombre, $unCorreo);
-		$string = $unNombre."-".$unCorreo."\r\n";
+		$string = $unNombre."-".$unCorreo."-".$unaClave."\r\n";
 
 		$archivo=fopen('archivos/usuarios.txt', 'a');
 		fwrite($archivo, $string);
@@ -69,7 +81,7 @@ class Usuario
 
 			$losUsuarios[0] = trim($losUsuarios[0]);
 			if($losUsuarios[0] != ""){
-				$arrayDeUsuarios[] = new Usuario($usuario[0], $usuario[1]);
+				$arrayDeUsuarios[] = new Usuario($usuario[0], $usuario[1], $usuario[2]);
 			}
 		}
 

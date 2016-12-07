@@ -1,6 +1,4 @@
 
-
-
 $(document).ready(function () 
 {
 
@@ -30,11 +28,13 @@ function RegistrarUsuario()
 
 	var nombre = $('#nombre').val();
 	var correo = $('#correo').val();
+	var clave = $('#clave').val();
+
 
 	 	$.ajax({
 		type:"post",
 		url:"nexo.php",
-		data:{queHacer:queHago, nombre:nombre, correo:correo},	
+		data:{queHacer:queHago, nombre:nombre, correo:correo, clave:clave},	
 		success: function (resp) 
 				{	
 
@@ -123,8 +123,10 @@ function ingresarMascota ()
 	var tipo = $('#selectTipo').val();
 	var sexo = $("input[name='sexo']:checked").val();
 
+
 	var queHago = "insertarMascota";
 
+		enviarFoto(nombre);
 
 		$.ajax({
 		type:"post",
@@ -144,11 +146,8 @@ function ingresarMascota ()
 
 function sacarMascota (mascota) 
 {
-	var nombre = mascota.nombre;
+	var nombre = mascota.edad;
 
-	// if(!confirm("Desea ELIMINAR la MASCOTA "+mascota.nombre+"??")){
-	// 	return;
-	// }
 	alert(nombre);
 	
     $.ajax({
@@ -160,14 +159,14 @@ function sacarMascota (mascota)
 			mascota : nombre
 		}
     })
-	.done(function (objJson) {
+	.done(function (resp) {
 
 			alert("borrado");
-			alert(objJson);
-
+			alert(resp);
 			$('#Contenedor').load('vistas/grillaMascotas.php');
 		})
-	.fail(function  () {
+	.fail(function  (resp) {
+		alert(resp);
 		alert("no borrado");
 	});
 }
@@ -179,13 +178,37 @@ function modificarMascota (nombre)
 }
 
 
-function pablo (cssd) {
-	alert(cssd);
-
-}
-
-
 function Cancelar() 
 {
 	window.location="index.php";
+}
+
+function enviarFoto (nombre) 
+{
+	var foto=$('#foto').val();
+	
+	var archivo = $("#foto")[0];
+
+
+	var formData = new FormData();
+	formData.append("foto",archivo.files);
+	formData.append("queHacer", "subirFoto");
+	formData.append("nombre", nombre);
+
+	$.ajax({
+        type: 'post',
+        url: 'nexo.php',
+        dataType: "json",
+		cache: false,
+		contentType: false,
+		processData: false,
+        data: formData,
+        async: true,
+
+		success: function (objJson) {
+
+		 return;
+		}
+	});
+
 }
